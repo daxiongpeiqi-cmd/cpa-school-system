@@ -110,6 +110,7 @@
               transition:all .12s;}
   .school-tag:hover{background:#e6eefb;border-color:var(--primary2);transform:translateY(-1px);box-shadow:0 2px 6px rgba(14,165,233,.18);}
   .lv{display:inline-block;font-size:10px;padding:1px 7px;border-radius:9px;color:#fff;font-weight:600;}
+  .rtag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:9px;color:#fff;font-weight:700;background:#e11d48;margin-left:3px;}
 
   .unknown-section{margin-top:16px;border:1px solid #f0d8b8;border-radius:12px;overflow:hidden;background:#fffdf9;}
   .unknown-head{padding:13px 18px;background:#fef3e7;font-weight:700;font-size:14.5px;color:#b45309;cursor:pointer;
@@ -748,7 +749,8 @@ const ISSUES = {
         "classes": "寄宿制公办高中，面向开平市及周边招生，按中考文化成绩择优录取；分班细则未公开，通常设重点班与平行班",
         "confidence": "公开",
         "note": "官方全称为开平市开侨中学，高考成绩长期居江门各市区前列",
-        "stage": "完全"
+        "stage": "完全",
+        "tag": "9月1日开学"
       },
       {
         "name": "开平长师学校",
@@ -1216,7 +1218,8 @@ const ISSUES = {
         "classes": "公办高中，新沂市与南通海门教育协作背景，生源为新沂市中考中上段；设实验班/重点班与平行班，按中考成绩分层（细则未公开）",
         "confidence": "估测",
         "note": "校名在公开资料中亦作新沂市海门中学/海门实验学校；江苏四星级高中在本表归入省示范高中口径，星级认定情况建议以江苏省教育厅名录核对",
-        "stage": "完全"
+        "stage": "完全",
+        "tag": "15号军训"
       },
       {
         "name": "新沂市第三中学",
@@ -2668,6 +2671,20 @@ const ISSUES = {
         "confidence": "估测",
         "note": "1957年创建，农村完全中学，位于甘谷县安远镇（亦有资料写大像山镇南街，校址表述不一，建议核对）。天水市示范性普通高中，公办。未查到省级示范性高中认定依据，按市级示范归类。来源：校长访谈、2023招生简章、搜狗百科。",
         "stage": "完全"
+      },
+      {
+        "name": "五台县第二中学",
+        "province": "山西",
+        "city": "忻州",
+        "district": "五台县",
+        "level": "初中",
+        "nature": "公办",
+        "grades": "初中",
+        "rates": "初中（义务教育段），无高考本科率；五台县直属公立初级中学，现有42个教学班、2586名学生、187名专任教师（高级教师26人）。",
+        "classes": "初级中学，未设高中部；按义务教育常规分班（无重点班公开信息）。",
+        "confidence": "公开",
+        "note": "1985年建校，五台县直属公立初级中学，位于台城镇古城村；获评义务教育示范学校、山西省依法治校示范校等。本校为初中，无高考本科率，不纳入高考升学对比。来源：百度百科/五台县政府门户网站。",
+        "stage": "初中"
       }
     ]
   }
@@ -2737,7 +2754,7 @@ function renderGrade(container, grade){
         html+='<div class="county"><div class="county-row"><span class="county-name">'+esc(county)+'</span><span class="school-list">';
         for(const {i,r} of list){
           const lv=r.level||''; const col=LV_COLOR[lv]||'var(--lv4)';
-          html+='<span class="school-tag" onclick="openModal('+i+')">'+esc(r.name)+(lv?'<span class="lv" style="background:'+col+'">'+esc(lv)+'</span>':'')+(r.stage&&r.stage!=='待定'?' <span style="font-size:10px;color:#0ea5e9;margin-left:2px;font-weight:600">'+esc(r.stage)+'</span>':'')+'</span>';
+          html+='<span class="school-tag" onclick="openModal('+i+')">'+esc(r.name)+(lv?'<span class="lv" style="background:'+col+'">'+esc(lv)+'</span>':'')+(r.stage&&r.stage!=='待定'?' <span style="font-size:10px;color:#0ea5e9;margin-left:2px;font-weight:600">'+esc(r.stage)+'</span>':'')+(r.tag?'<span class="rtag">'+esc(r.tag)+'</span>':'')+'</span>';
         }
         html+='</span></div></div>';
       }
@@ -2800,6 +2817,7 @@ function openModal(idx){
   html+='<span class="badge" style="background:'+lvCol+'">'+esc(lv)+'</span>';
   if(r.stage&&r.stage!=='待定') html+='<span class="badge" style="background:#0ea5e9">'+esc(r.stage)+'</span>';
   html+='<span class="badge" style="background:#64748b">'+esc(r.nature||'—')+'</span>';
+  if(r.tag) html+='<span class="badge" style="background:#e11d48">'+esc(r.tag)+'</span>';
   const rows=[['省份',r.province||'—'],['城市',r.city||'—'],['区县',r.district||'—'],
     ['学段',r.stage||'—'],['来源年级',r.grades||'—'],['升学概况',r.rates||'—'],['分班与生源',r.classes||'—']];
   for(const [k,v] of rows) html+='<div class="row"><span class="k">'+k+'</span><span class="v">'+esc(v)+'</span></div>';
